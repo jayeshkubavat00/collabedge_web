@@ -1,0 +1,212 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+html, body {
+  display: grid;
+  height: 100%;
+  width: 100%;
+  place-items: center;
+  background: linear-gradient(to right, #1E3A8A, #3B82F6);
+}
+
+::selection {
+  background: #3B82F6;
+  color: #FFFFFF;
+}
+
+.create-post-container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.create-post-container h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+.field {
+  margin-bottom: 20px;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 15px;
+  font-size: 16px;
+  border: 1px solid #3B82F6;
+  border-radius: 15px;
+  background-color: #fff;
+  color: #3B82F6;
+  transition: all 0.3s ease;
+}
+
+.field textarea {
+  min-height: 100px;
+}
+
+.field input:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: #1E3A8A;
+}
+
+button {
+  width: 100%;
+  padding: 15px;
+  background-color: #1E3A8A;
+  color: white;
+  font-size: 18px;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #3B82F6;
+}
+
+.error-message {
+  color: red;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.success-message {
+  color: green;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.back-button {
+  width: auto;
+  margin-top: 20px;
+  color: #3B82F6;
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.back-button:hover {
+  text-decoration: underline;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+html, body {
+  display: grid;
+  height: 100%;
+  width: 100%;
+  place-items: center;
+  background: linear-gradient(to right, #1E3A8A, #3B82F6);
+}
+
+::selection {
+  background: #3B82F6;
+  color: #FFFFFF;
+}
+
+.create-post-container {
+  max-width: 800px;
+  min-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.create-post-container h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+.field {
+  margin-bottom: 20px;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 15px;
+  font-size: 16px;
+  border: 1px solid #3B82F6;
+  border-radius: 15px;
+  background-color: #fff;
+  color: #3B82F6;
+  transition: all 0.3s ease;
+}
+
+.field textarea {
+  min-height: 100px;
+}
+
+.field input:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: #1E3A8A;
+}
+
+button {
+  width: 100%;
+  padding: 15px;
+  background-color: #1E3A8A;
+  color: white;
+  font-size: 18px;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #3B82F6;
+}
+
+.error-message {
+  color: red;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.success-message {
+  color: green;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.back-button {
+  width: auto;
+  margin-top: 20px;
+  color: #3B82F6;
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.back-button:hover {
+  text-decoration: underline;
+}

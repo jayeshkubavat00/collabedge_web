@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+html, body {
+  display: grid;
+  height: 100%;
+  width: 100%;
+  place-items: center;
+  background: linear-gradient(to right, #1E3A8A, #3B82F6);
+}
+
+.submitted-container {  
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: white;
+  padding: 30px;
+  border-radius: 0; /* No border radius for full-screen layout */
+  box-shadow: none; /* Remove shadow for full-page */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeIn 0.5s ease-in-out;
+  overflow-y: auto; /* Allow scrolling if content is long */
+}
+
+
+h2 {
+  color: #3B82F6;
+  text-align: center;
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+/* List Container */
+.submitted-list {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Each Connection Card */
+.submitted-item {
+  background: #F9FAFB;
+  padding: 20px;
+  border-radius: 12px;
+  border-left: 6px solid #3B82F6;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.submitted-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Status Styling */
+.message {
+  font-size: 16px;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+/* Dynamic Status Colors */
+.status-accepted {
+  background: #D1FAE5;
+  color: #059669;
+}
+
+.status-pending {
+  background: #FEF3C7;
+  color: #D97706;
+}
+
+.status-rejected {
+  background: #FEE2E2;
+  color: #DC2626;
+}
+
+/* Details Styling */
+.details p {
+  margin: 6px 0;
+  font-size: 14px;
+  color: #333;
+}
+
+/* No Submissions Message */
+.no-submissions {
+  text-align: center;
+  color: #666;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .submitted-container {
+    min-width: 90%;
+    max-width: 100%;
+    padding: 20px;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  .submitted-item {
+    padding: 15px;
+  }
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

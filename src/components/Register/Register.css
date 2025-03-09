@@ -1,0 +1,55 @@
+/* Center the form */
+.register-container {
+  max-width: 350px;
+  margin: 50px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Title Style */
+.register-title {
+  color: blue;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* Input Fields */
+.input-field {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 2px solid gray; /* Default gray border */
+  border-radius: 5px;
+  font-size: 16px;
+  outline: none;
+  transition: 0.3s;
+  background: white;
+}
+
+/* Focus Style */
+.input-field:focus {
+  border-color: blue;
+  background: white;
+}
+
+/* Button */
+.register-button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  font-size: 18px;
+  color: white;
+  background: blue;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* Button Hover Effect */
+.register-button:hover {
+  background: darkblue;
+}
