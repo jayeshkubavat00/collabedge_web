@@ -12,14 +12,13 @@ const AuthForm = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
-
   useEffect(() => {
-    // If token exists, redirect user to the main page
     const token = localStorage.getItem('token');
     if (token) {
       navigate("/main");
     }
   }, [navigate]);
+ 
 
   // Form Validation Logic
   const validateForm = () => {

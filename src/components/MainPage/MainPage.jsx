@@ -25,6 +25,9 @@ const MainPage = () => {
   const fetchProfile = async () => {
     try {
         const token = localStorage.getItem("token");
+        if(!token){
+          navigate('/');
+        }
         console.log("Token:", token); // Check the token
 
         const response = await axios.get("http://localhost:5000/api/auth/profile", {
@@ -131,15 +134,6 @@ const MainPage = () => {
             <button onClick={() => navigate("/create-post")}>Create Post</button>
             <button onClick={() => navigate("/notification")}>Notifications</button>
             <button onClick={() => navigate("/submitted-connections")}>Submitted Connections</button>
-            {/* <button
-              onClick={() => {
-                localStorage.removeItem("token");
-                localStorage.removeItem("userID");
-                navigate("/");
-              }}
-            >
-              Logout
-            </button> */}
             <button onClick={() => setIsLogoutDialogOpen(true)}>Logout</button>
 
           </div>
@@ -149,50 +143,47 @@ const MainPage = () => {
 
       {/* Pull to Refresh Wrapper */}
       <PullToRefresh onRefresh={handleRefresh}>
-        {loading
-          ? Array.from({ length: 3 }).map((_, index) => <ShimmerLoader key={index} />)
-          : feedData.length > 0
-          ? feedData.map((feed) => (
-              <div key={feed._id} className="card">
-                <div className="header">
-                  <div className="avatar">
-                    {feed.user.fullName ? feed.user.fullName.charAt(0).toUpperCase() : ""}
-                  </div>
-                  <div className="author-info">
-                    <h3>{feed.user.fullName}</h3>
-                    <p>{feed.user.email}</p>
-                  </div>
-                </div>
+      {loading ? (
+  Array.from({ length: 3 }).map((_, index) => <ShimmerLoader key={index} />)
+) : feedData && feedData.length > 0 ? (
+  feedData.map((feed) => (
+    <div key={feed?._id} className="card">
+      <div className="header">
+        <div className="avatar">{feed?.user?.fullName?.charAt(0).toUpperCase() || "U"}</div>
+        <div className="author-info">
+          <h3>{feed?.user?.fullName || "Unknown User"}</h3>
+          <p>{feed?.user?.email || "No Email"}</p>
+        </div>
+      </div>
 
-                <div className="content">
-                  <h2>{feed.title}</h2>
-                  <p>{feed.description}</p>
-                </div>
+      <div className="content">
+        <h2>{feed?.title || "No Title"}</h2>
+        <p>{feed?.description || "No Description"}</p>
+      </div>
 
-                <div className="tags">
-                  {feed.techStack.map((tag, index) => (
-                    <span key={index} className="tag">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
+      <div className="tags">
+        {feed?.techStack?.map((tag, index) => (
+          <span key={index} className="tag">{tag}</span>
+        ))}
+      </div>
 
-                <div className="footer">
-                  <span className="status">{feed.currentWork}</span>
-                </div>
+      <div className="footer">
+        <span className="status">{feed?.currentWork || "Unknown Status"}</span>
+      </div>
 
-                <hr className="divider" />
+      <hr className="divider" />
 
-                <div className="actions">
-                  <button className="connect-button" onClick={() => setIsDialogOpen(true)}>
-                    Connect
-                  </button>
-                </div>
-              </div>
-            ))
-          : (
-            <p>No feed available</p>
-          )}
+      <div className="actions">
+        <button className="connect-button" onClick={() => setIsDialogOpen(true)}>
+          Connect
+        </button>
+      </div>
+    </div>
+  ))
+) : (
+  <p>No feed available</p>
+)}
+
       </PullToRefresh>
       
       {/* Logout Dialog */}

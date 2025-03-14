@@ -60,25 +60,32 @@ const EditProfile = () => {
   // Handle form submit (update profile)
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // Show loading spinner
-    setError(null); // Reset any previous error message
-
+    setLoading(true);
+    setError(null);
+  
     const token = localStorage.getItem("token");
-    const userID = localStorage.getItem("userID"); // Fetch userID from localStorage
-
+    const userID = localStorage.getItem("userID");
+  
     if (!userID) {
       setError("UserID is missing.");
       setLoading(false);
       return;
     }
-
+  
     try {
-      // Add userID to the formData
-      const updatedData = { ...formData, userID };
-
-      // Send a PUT request to update the profile data
+      // Ensure phone number is included properly
+      const updatedData = {
+        fullName: formData.name,
+        email: formData.email,
+        skyId: formData.skyId,
+        bio: formData.bio,
+        phoneNumber: formData.phone, // Make sure phoneNumber is sent correctly
+      };
+  
+      console.log("Sending data:", updatedData); // Debugging log
+  
       const response = await axios.put(
-        "http://localhost:5000/api/auth/edit-profile", // URL for updating profile
+        "http://localhost:5000/api/auth/edit-profile", 
         updatedData,
         {
           headers: {
@@ -86,21 +93,20 @@ const EditProfile = () => {
           },
         }
       );
-
+  
       if (response.status === 200) {
         alert("Profile updated successfully!");
-        // Optionally re-fetch the profile data after successful save
-        fetchProfileData(); // This will refresh the profile data after updating
       } else {
-        setError("Error saving profile data.");
+        setError(response.data.message || "Error saving profile data.");
       }
     } catch (error) {
       console.error("Error updating profile:", error);
       setError("Failed to update profile.");
     }
-
-    setLoading(false); // Hide loading spinner
+  
+    setLoading(false);
   };
+  
 
   return (
     <div className="edit-profile-container">
