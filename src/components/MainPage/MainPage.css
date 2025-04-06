@@ -470,3 +470,14 @@ body {
   width: auto; /* Keeps aspect ratio */
   object-fit: contain;
 }
+
+.no-feed{
+  align-items: center;
+  align-self: center;
+  align-content: center;
+  text-align: center;
+  width: 100vh;
+  height: 70vh;
+  font-size: 5vh;
+  font-weight: 500
+}

@@ -24,30 +24,25 @@ const MainPage = () => {
 
   const fetchProfile = async () => {
     try {
-        const token = localStorage.getItem("token");
-        if(!token){
-          navigate('/');
-        }
-        console.log("Token:", token); // Check the token
+      const token = localStorage.getItem("token");
+      if (!token) {
+        navigate("/");
+      }
 
-        const response = await axios.get("http://localhost:5000/api/auth/profile", {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-        });
+      const response = await axios.get("http://localhost:5000/api/auth/profile", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-        console.log("Profile Response:", response); // Check the response
-
-        if (response.data) {
-            setUserProfile(response.data.user);
-        }
+      if (response.data) {
+        setUserProfile(response.data.user);
+      }
     } catch (err) {
-        console.error("Error fetching profile data:", err); // Check the error
+      console.error("Error fetching profile data:", err);
     }
   };
-
-
 
   const fetchFeed = async () => {
     try {
@@ -106,18 +101,55 @@ const MainPage = () => {
     }
   };
 
+  // Function to handle account deletion
+  const handleDeleteAccount = async () => {
+    try {
+      const userID = localStorage.getItem("userID");
+      const token = localStorage.getItem("token");
+
+      if (!userID || !token) {
+        alert("User not authenticated!");
+        return;
+      }
+
+      const response = await axios.delete(
+        "http://localhost:5000/api/auth/delete-account",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          data: {
+            userID, // Send userID for account deletion
+          },
+        }
+      );
+
+      if (response.data.status) {
+        alert("Your account has been deleted successfully.");
+        localStorage.removeItem("token");
+        localStorage.removeItem("userID");
+        navigate("/"); // Redirect to home page after deletion
+      } else {
+        alert("Failed to delete account: " + response.data.message);
+      }
+    } catch (error) {
+      console.error("Error deleting account:", error);
+      alert("Error deleting account");
+    }
+  };
+
   return (
     <div className="main-container">
-       <div className="logo">
-      <img
-        src="https://media-hosting.imagekit.io//5983c9ce2a6147f7/CollabEdge_logo-removebg-preview.png?Expires=1836148601&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=LulfTHGF7o09faRvwlqBm4nMGiGo7t7wfIDdNWHkm0X3FF6W2h9ug6pz7JRaqTz1VFs2ctuLjesWLC06IjmYcVhELPi9df68e7NYynHWT8SF2ktPPiomyEutJUr8FeHNoxzkYOEJWClddD6-VLHonQxSrb5BIcp2R1oD-XNmKLQhqFisnegrxx0KcNwrIQHeCVSFEdSgvFL7sk25gA7qW9IrVlWptGCHQIAPZHacW4VgHCv0aXXrJwoL4~qbLJwEXt7Y-YQ~AYJ1OVP6~SOZhHKAwCE4wRwdBJPsB2ZVeHoctrejYvu7EGOIVo0UE-ulkwSSaQ2yQ9NrYc16oWMKkQ__"
-        alt="CollabEdge Logo"
-        className="logo-img"
-      />
-    </div>
+      <div className="logo">
+        <img
+          src="https://media-hosting.imagekit.io//5983c9ce2a6147f7/CollabEdge_logo-removebg-preview.png?Expires=1836148601&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=LulfTHGF7o09faRvwlqBm4nMGiGo7t7wfIDdNWHkm0X3FF6W2h9ug6pz7JRaqTz1VFs2ctuLjesWLC06IjmYcVhELPi9df68e7NYynHWT8SF2ktPPiomyEutJUr8FeHNoxzkYOEJWClddD6-VLHonQxSrb5BIcp2R1oD-XNmKLQhqFisnegrxx0KcNwrIQHeCVSFEdSgvFL7sk25gA7qW9IrVlWptGCHQIAPZHacW4VgHCv0aXXrJwoL4~qbLJwEXt7Y-YQ~AYJ1OVP6~SOZhHKAwCE4wRwdBJPsB2ZVeHoctrejYvu7EGOIVo0UE-ulkwSSaQ2yQ9NrYc16oWMKkQ__"
+          alt="CollabEdge Logo"
+          className="logo-img"
+        />
+      </div>
+
       {/* Profile Menu */}
       <div className="profile-container">
-        
         <div className="profile-icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
           {userProfile?.fullName?.charAt(0).toUpperCase() || "J"}
         </div>
@@ -134,78 +166,85 @@ const MainPage = () => {
             <button onClick={() => navigate("/create-post")}>Create Post</button>
             <button onClick={() => navigate("/notification")}>Notifications</button>
             <button onClick={() => navigate("/submitted-connections")}>Submitted Connections</button>
+            <button onClick={handleDeleteAccount}>Delete Account</button> {/* Added Delete Account button */}
             <button onClick={() => setIsLogoutDialogOpen(true)}>Logout</button>
-
           </div>
         )}
       </div>
+
       <div className="height-container"></div>
 
       {/* Pull to Refresh Wrapper */}
       <PullToRefresh onRefresh={handleRefresh}>
-      {loading ? (
-  Array.from({ length: 3 }).map((_, index) => <ShimmerLoader key={index} />)
-) : feedData && feedData.length > 0 ? (
-  feedData.map((feed) => (
-    <div key={feed?._id} className="card">
-      <div className="header">
-        <div className="avatar">{feed?.user?.fullName?.charAt(0).toUpperCase() || "U"}</div>
-        <div className="author-info">
-          <h3>{feed?.user?.fullName || "Unknown User"}</h3>
-          <p>{feed?.user?.email || "No Email"}</p>
-        </div>
-      </div>
+        {loading ? (
+          Array.from({ length: 3 }).map((_, index) => <ShimmerLoader key={index} />)
+        ) : feedData && feedData.length > 0 ? (
+          feedData.map((feed) => (
+            <div key={feed?._id} className="card">
+              <div className="header">
+                <div className="avatar">{feed?.user?.fullName?.charAt(0).toUpperCase() || "U"}</div>
+                <div className="author-info">
+                  <h3>{feed?.user?.fullName || "Unknown User"}</h3>
+                  <p>{feed?.user?.bio || ""}</p>
+                </div>
+              </div>
 
-      <div className="content">
-        <h2>{feed?.title || "No Title"}</h2>
-        <p>{feed?.description || "No Description"}</p>
-      </div>
+              <div className="content">
+                <h2>{feed?.title || "No Title"}</h2>
+                <p>{feed?.description || "No Description"}</p>
+              </div>
 
-      <div className="tags">
-        {feed?.techStack?.map((tag, index) => (
-          <span key={index} className="tag">{tag}</span>
-        ))}
-      </div>
+              <div className="tags">
+                {feed?.techStack?.map((tag, index) => (
+                  <span key={index} className="tag">{tag}</span>
+                ))}
+              </div>
 
-      <div className="footer">
-        <span className="status">{feed?.currentWork || "Unknown Status"}</span>
-      </div>
+              <div className="footer">
+                <span className="status">{feed?.currentWork || "Unknown Status"}</span>
+              </div>
 
-      <hr className="divider" />
+              <hr className="divider" />
 
-      <div className="actions">
-        <button className="connect-button" onClick={() => setIsDialogOpen(true)}>
-          Connect
-        </button>
-      </div>
-    </div>
-  ))
-) : (
-  <p>No feed available</p>
-)}
-
+              <div className="actions">
+                <button className="connect-button" onClick={() => setIsDialogOpen(true)}>
+                  Connect
+                </button>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="no-feed">No feed available</div>
+        )}
       </PullToRefresh>
-      
+
       {/* Logout Dialog */}
       {isLogoutDialogOpen && (
         <div className="dialog-overlay">
           <div className="logout-dialog-box">
             <h2>Are you sure you want to logout?</h2>
-            <button onClick={() => {
+            <button
+              onClick={() => {
                 localStorage.removeItem("token");
                 localStorage.removeItem("userID");
                 navigate("/");
-              }}>Logout</button>
-              <div className="height-container"></div>
+              }}
+            >
+              Logout
+            </button>
+            <div className="height-container"></div>
             <button onClick={() => setIsLogoutDialogOpen(false)}>Cancel</button>
           </div>
         </div>
       )}
+
       {/* Dialog Box */}
       {isDialogOpen && (
         <div className="dialog-overlay">
           <div className="dialog-box">
-            <button className="close-button" onClick={() => setIsDialogOpen(false)}>✖</button>
+            <button className="close-button" onClick={() => setIsDialogOpen(false)}>
+              ✖
+            </button>
             <h2 className="dialog-title">Connect with Project Owner</h2>
             <p>Send a request to connect with the project owner and collaborate.</p>
             <div className="height-container"></div>
@@ -231,7 +270,6 @@ const MainPage = () => {
         </div>
       )}
     </div>
-    
   );
 };
 

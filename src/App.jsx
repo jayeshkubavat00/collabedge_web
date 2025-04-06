@@ -10,6 +10,8 @@ import MyPosts from "./components/MyPosts/MyPosts";
 import InterestRequests from "./components/MyPosts/InterestRequests";
 import AdminLogin from "./AdminDashBoard/admin-login/admin_login_page";
 import AdminDashboard from "./AdminDashBoard/dashboard_page/dashboard_page";
+import CreateAdmin from "./AdminDashBoard/create-admin/create_admin_page";
+import AdminUserPost from "./AdminDashBoard/admin_user_post/admin_user_post_page";
 
 const App = () => {
   return (
@@ -30,6 +32,8 @@ const App = () => {
         <Route path="/interest-requests/:postId" element={<InterestRequests />} />
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
+        <Route path="/create-admin" element={<CreateAdmin />} />
+        <Route path="/user-post" element={<AdminUserPost />} />
       </Routes>
     </Router>
   );

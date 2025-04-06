@@ -503,4 +503,19 @@ body {
     background-color: #1E3A8A;
     
   }
+
+
+  .delete-button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  .delete-button:hover {
+    background-color: darkred;
+  }
   

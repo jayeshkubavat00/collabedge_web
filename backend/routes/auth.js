@@ -3,6 +3,8 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const Feed = require('../models/feed'); // Assuming Post model exists
+const InterestSchema = require('../models/Interest'); // Assuming Comment model exists
 const dotenv = require("dotenv");
 
 dotenv.config();
@@ -83,7 +85,6 @@ router.post("/register", async (req, res) => {
   }
 });
 
-
 // ✅ Login Route
 router.post("/login", async (req, res) => {
   try {
@@ -128,6 +129,7 @@ router.post("/login", async (req, res) => {
     res.status(500).json({ status: false, error: "Server error" });
   }
 });
+
 // ✅ Profile Route (Protected)
 router.get("/profile", authenticateUser, async (req, res) => {
   try {
@@ -173,5 +175,34 @@ router.put("/edit-profile", authenticateUser, async (req, res) => {
     return res.status(500).json({ status: false, message: "Server error", error: err.message });
   }
 });
+
+// ✅ Delete Account Route (Newly Added)
+// ✅ Delete Account Route (Fixed)
+router.delete("/delete-account", authenticateUser, async (req, res) => {
+  try {
+    // Step 1: Delete all related Feed posts of the user
+    await Feed.deleteMany({ user: req.user.id });  // Delete feeds created by the user
+
+    // Step 2: Delete all related InterestSchema entries (interests submitted by the user)
+    await InterestSchema.deleteMany({ user: req.user.id });  // Delete interests of the user
+
+    // Step 3: Delete the user from the User collection
+    const user = await User.findByIdAndDelete(req.user.id);
+
+    if (!user) {
+      return res.status(404).json({ status: false, message: "User not found" });
+    }
+
+    // Step 4: Return a success response
+    res.status(200).json({
+      status: true,
+      message: "User account and related data deleted successfully",
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ status: false, message: "Server error", error: err.message });
+  }
+});
+
 
 module.exports = router;

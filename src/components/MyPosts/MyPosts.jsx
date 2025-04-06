@@ -110,24 +110,27 @@ const styles = {
     backgroundColor: "#f4f5f7",
     paddingBottom: "40px",
     display: "flex",
+    minWidth:"100vh",
     justifyContent: "flex-start", // Align list to the left
     paddingLeft: "10%", // Left padding to maintain alignment
   },
   mainContainer: {
     padding: "20px",
     minHeight: "100vh",
+    minWidth:"100vh",
     display: "flex",
     flexDirection: "column",
     alignItems: "flex-start", // Align list items to the left
   },
   card: {
     backgroundColor: "white",
+    
     color: "#333",
     padding: "20px",
     borderRadius: "12px",
     boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.08)",
     marginBottom: "20px",
-    width: "80%", // 📏 Set width to 80% of screen
+    width: "150%", // 📏 Set width to 80% of screen
     transition: "transform 0.2s ease-in-out",
   },
   title: {
@@ -219,6 +222,12 @@ const styles = {
   noPosts: {
     fontSize: "16px",
     color: "#6b7280",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100vh", // Takes full viewport height
+    textAlign: "center",
+    width: "170%", // Ensures full width for centering
   },
 
 };

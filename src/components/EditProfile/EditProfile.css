@@ -64,9 +64,15 @@ h2 {
   border-bottom-width: 2px;
   font-size: 17px;
   background: #FFFFFF;
+  display: flex;
+  padding: 10px; /* Adjust padding for better spacing */
+  height: 100px; /* Adjust height as needed */
+  align-items: center; /* Vertically center */
+  justify-content: center; /* Horizontally center if needed */
   color: #000;
   transition: all 0.3s ease;
   outline: none;
+  
 }
 
 .input-field:focus {

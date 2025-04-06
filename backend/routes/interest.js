@@ -81,34 +81,63 @@ router.post("/approve", authenticateUser, async (req, res) => {
       res.status(500).json({ status: false, error: "Server error" });
     }
   });
-  
-
-// ✅ Get Approved Interests (Includes Contact Info) approved you 
+  // ✅ Get Approved Interests (Includes Contact Info of post owner)
 router.get("/approved-list", authenticateUser, async (req, res) => {
-    try {
-      const userId = req.user.id;   // Logged-in user ID
-  
-      const approvedInterests = await Interest.find({ status: "approved" })
-        .populate({
-          path: "feed",
-          match: { user: userId }, // Only show interests related to the logged-in user
-          select: "title description user",
-        })
-        .populate("user", "fullName email contactNumber"); // Include user details
-  
-      // Filter out null feeds (to avoid returning unrelated interests)
-      const filteredInterests = approvedInterests.filter((interest) => interest.feed !== null);
-  
-      res.status(200).json({
-        status: true,
-        message: "Approved interests for logged-in user",
-        data: filteredInterests,
-      });
-    } catch (error) {
-      console.error("Error fetching approved interests:", error);
-      res.status(500).json({ status: false, error: "Server error" });
-    }
-  });
+  // try {
+  //   const userId = req.user.id;   // Logged-in user ID
+
+  //   const approvedInterests = await Interest.find({ status: "approved" })
+  //     .populate({
+  //       path: "feed",
+  //       match: { user: userId }, // Only show interests related to the logged-in user
+  //       select: "title description user", // Only select title, description, and the post owner
+  //     })
+  //     .populate({
+  //       path: "user", 
+  //       select: "fullName email contactNumber" // Include the user's details
+  //     })
+  //     .populate({
+  //       path: "feed.user",  // Populate the post owner's user details
+  //       select: "fullName email contactNumber" // Add the post owner's details
+  //     });
+
+  //   // Filter out null feeds (to avoid returning unrelated interests)
+  //   const filteredInterests = approvedInterests.filter((interest) => interest.feed !== null);
+
+  //   res.status(200).json({
+  //     status: true,
+  //     message: "Approved interests for logged-in user with post owner details",
+  //     data: filteredInterests,
+  //   });
+  // } catch (error) {
+  //   console.error("Error fetching approved interests:", error);
+  //   res.status(500).json({ status: false, error: "Server error" });
+  // }
+  try {
+    // Fetch submitted interests by the logged-in user
+    const interests = await Interest.find({ user: req.user.id, status: 'approved' })  // Filter by approved status
+      .populate({
+        path: "feed",
+        select: "title description user", // Include post title, description, and the post owner's ID
+        populate: {
+          path: "user",  // Populate the user of the post (post owner)
+          select: "fullName email phoneNumber bio skyId"  // Get the post owner's details
+        }
+      })
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      status: true,
+      message: "Submitted interests retrieved with post owner details",
+      data: interests,
+    });
+  } catch (error) {
+    console.error("Error fetching submitted interests:", error);
+    res.status(500).json({ status: false, error: "Server error" });
+  }
+});
+
+
   const mongoose = require("mongoose");
   router.get("/requests/:postId", authenticateUser, async (req, res) => {
     try {

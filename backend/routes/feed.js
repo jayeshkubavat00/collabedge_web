@@ -44,29 +44,10 @@ router.get("/get-feed", async (req, res) => {
 });
 
 // ✅ Fetch user's own feed posts
-// router.get("/get-profile-feed", authenticateUser, async (req, res) => {
-//   try {
-//     const myFeeds = await Feed.find({ user: req.user.id })
-//       .populate("user", "fullName email bio") // 👈 Fetch `fullName`, `email`, and `bio`
-//       .sort({ createdAt: -1 });
-
-//     res.status(200).json({ status: true, message: "User's feed retrieved", data: myFeeds });
-//   } catch (error) {
-//     console.error("Error fetching user feeds:", error);
-//     res.status(500).json({ status: false, error: "Server error" });
-//   }
-// });
-
-router.get("/get-profile-feed", async (req, res) => {
+router.get("/get-profile-feed", authenticateUser, async (req, res) => {
   try {
-    const userId = req.query.userId || req.user?.id; // ✅ Use query param first, then token
-
-    if (!userId) {
-      return res.status(400).json({ status: false, message: "User ID or authentication token is required" });
-    }
-
-    const myFeeds = await Feed.find({ user: userId })
-      .populate("user", "fullName email bio")
+    const myFeeds = await Feed.find({ user: req.user.id })
+      .populate("user", "fullName email bio") // 👈 Fetch `fullName`, `email`, and `bio`
       .sort({ createdAt: -1 });
 
     res.status(200).json({ status: true, message: "User's feed retrieved", data: myFeeds });
@@ -75,5 +56,6 @@ router.get("/get-profile-feed", async (req, res) => {
     res.status(500).json({ status: false, error: "Server error" });
   }
 });
+
 
 module.exports = router;

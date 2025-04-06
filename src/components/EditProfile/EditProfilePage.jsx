@@ -165,7 +165,7 @@ const EditProfile = () => {
             id="phone"
             placeholder="Enter your phone number"
             value={formData.phone}
-            onChange={handleChange}
+            onChange={handleChange}          
             className="input-field"
           />
         </div>

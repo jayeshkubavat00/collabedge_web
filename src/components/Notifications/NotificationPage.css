@@ -1,144 +1,172 @@
-@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+/* NotificationPage.css */
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
-}
-
-html, body {
-  display: grid;
-  height: 100%;
-  width: 100%;
-  place-items: center;
-  background: linear-gradient(to right, #1E3A8A, #3B82F6);
-}
-
+/* Overall container for the page */
 .notification-container {
-  background: white;
-  padding: 30px;
-  border-radius: 15px;
-  min-width: 850px;
-  width: 100%;
-}
-
-h2 {
-  color: #3B82F6;
-  text-align: center;
-  font-size: 28px;
-  font-weight: 600;
-  margin-bottom: 20px;
-}
-
-.notification-list {
+  padding: 20px;
+  width: 100%; /* Ensures the container spans the full width */
+  margin: 0 auto;
+  background-color: #f9f9f9;
+  min-height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  align-items: center;
 }
 
-.notification-item {
-  background: #F3F4F6;
+/* Loading container for the spinner */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #ccc;
+  border-top: 5px solid #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Notification list container */
+.notification-list {
+  margin-top: 70px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Notification card styles */
+.notification-card {
+  margin-bottom: 16px;
   padding: 20px;
   border-radius: 10px;
-  border-left: 5px solid #3B82F6;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.notification-item:hover {
-  transform: translateY(-3px);
-  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+/* Notification message style */
+.notification-message {
+  font-weight: 600;
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 12px;
 }
 
-.message {
+/* User info section */
+.notification-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* User avatar and info styling */
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.user-avatar {
+  background-color: #3B82F6;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  color: white;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+.user-details {
+  margin-left: 16px;
+}
+
+.user-name {
+  font-weight: 700;
   font-size: 16px;
-  font-weight: 500;
-  color: #1E3A8A;
+  color: #333;
 }
-
-.details p {
-  margin: 5px 0;
-  font-size: 14px;
+.user-bio {
+  font-weight: 500;
+  font-size: 16px;
   color: #333;
 }
 
-.no-notifications {
-  text-align: center;
-  color: #666;
-  font-size: 16px;
-  font-weight: 500;
-}
-
-/* Contact Me Section */
-.contact-me {
-  margin-top: 15px;
-  padding-top: 10px;
-  border-top: 1px solid #ddd;
-}
-
-.contact-me p {
+.user-skype {
+  color: #6b7280; /* Text secondary color */
   font-size: 14px;
-  font-weight: bold;
-  color: #1E3A8A;
 }
 
-.contact-link {
+/* Contact info links (Email, Phone, LinkedIn) */
+.contact-info {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 8px;
-  font-size: 14px;
-  color: #3B82F6;
-  text-decoration: none;
-  margin-top: 5px;
-  transition: color 0.3s ease;
 }
 
-.contact-link i {
+.contact-item {
+  color: #3b82f6;
+  text-decoration: none;
   font-size: 16px;
 }
 
-.contact-link:hover {
-  color: #1E3A8A;
+.contact-item:hover {
   text-decoration: underline;
 }
 
-/* Responsive Design */
-@media (max-width: 500px) {
-  .notification-container {
-    min-width: 90%;
-    max-width: 100%;
-  }
-}
-
-
-.notification-container {
-  padding: 20px;
-  max-width: 600px;
-  margin: auto;
-}
-
-.notification-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.notification-card {
-  border-radius: 12px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  transition: 0.3s ease-in-out;
-}
-
-.notification-card:hover {
-  transform: translateY(-2px);
-}
-
-.message {
-  font-weight: bold;
-}
-
+/* Styling for no notifications message */
 .no-notifications {
+  color: #6b7280;
   text-align: center;
-  color: gray;
-  margin-top: 20px;
+  width: 100vh;
+  height: 100vh;
+  font-size: 20px;
+}
+
+/* Error Snackbar Styling */
+.error-snackbar {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #f44336;
+  color: white;
+  padding: 15px 25px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  max-width: 400px;
+}
+
+.error-snackbar button {
+  background-color: transparent;
+  color: white;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.error-snackbar button:hover {
+  text-decoration: underline;
+}
+
+.feed-info{
+ color: black; 
 }

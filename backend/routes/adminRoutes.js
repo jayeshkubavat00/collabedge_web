@@ -142,6 +142,70 @@ router.get("/user-list", authenticateAdmin, async (req, res) => {
     res.status(500).json({ status: false, error: "Server error fetching user list" });
   }
 });
+router.delete("/api/admin/delete-user/:userId", authenticateAdmin, async (req, res) => {
+  try {
+    const { userId } = req.params;
 
+    // Step 1: Delete all Interests related to the user's Feeds
+    await Interest.deleteMany({ user: userId });
+
+    // Step 2: Delete all Feeds associated with the user
+    await Feed.deleteMany({ user: userId });
+
+    // Step 3: Delete the user from the User collection
+    const deletedUser = await User.findByIdAndDelete(userId);
+
+    if (!deletedUser) {
+      return res.status(404).json({ status: false, message: "User not found" });
+    }
+
+    res.json({ status: true, message: "User and associated data deleted successfully" });
+  } catch (error) {
+    console.error("Error during deletion:", error);
+    res.status(500).json({ status: false, message: "Server error while deleting user" });
+  }
+});
+
+
+// Get all posts for a specific user by their userId
+router.get("/user/:userId/feeds", authenticateAdmin, async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    // Fetch the feeds related to the given userId
+    const feeds = await Feed.find({ user: userId }).populate("user", "fullName email"); // Populate user info if needed
+
+    if (!feeds || feeds.length === 0) {
+      return res.status(404).json({ status: false, message: "No feeds found for this user" });
+    }
+
+    res.status(200).json({
+      status: true,
+      message: "Feeds fetched successfully",
+      data: feeds,
+    });
+  } catch (err) {
+    console.error("Error fetching feeds:", err);
+    res.status(500).json({ status: false, error: "Server error fetching user feeds" });
+  }
+});
+
+// Delete a feed by ID
+router.delete('/post/:postId', async (req, res) => {
+  const { postId } = req.params;
+
+  try {
+    const deletedFeed = await Feed.findByIdAndDelete(postId);
+
+    if (!deletedFeed) {
+      return res.status(404).json({ status: false, error: 'Feed not found' });
+    }
+
+    return res.status(200).json({ status: true, message: 'Feed deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting feed:', error);
+    res.status(500).json({ status: false, error: 'Server error while deleting feed' });
+  }
+});
 
 module.exports = router;
