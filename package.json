@@ -16,6 +16,7 @@
     "@hookform/resolvers": "^3.10.0",
     "@mui/icons-material": "^6.4.7",
     "@mui/material": "^6.4.7",
+    "@netlify/plugin-nextjs": "^5.10.4",
     "axios": "^1.8.2",
     "jwt-decode": "^4.0.0",
     "react": "^19.0.0",
